@@ -15,5 +15,8 @@ use App\Http\Controllers\Todo\TodoController;
 |
 */
 
-// Endpoint sederhana untuk mengambil data Todos
-Route::get('/todos', [TodoController::class, 'apiIndex']);
+// Endpoint untuk mengambil data Todos (Secured with auth middleware)
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/todos', [TodoController::class, 'apiIndex']);
+});
+

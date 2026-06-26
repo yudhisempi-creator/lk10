@@ -4,28 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Tampilkan halaman login
+    /**
+     * Tampilkan halaman login
+     */
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    // Proses login
-    public function login(Request $request)
+    /**
+     * Proses login menggunakan Form Request validation
+     */
+    public function login(LoginRequest $request)
     {
-        // Validasi input
-        $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|min:5',
-        ], [
-            'username.required' => 'Username harus diisi',
-            'password.required' => 'Password harus diisi',
-            'password.min' => 'Password minimal 5 karakter',
-        ]);
+        // Data sudah tervalidasi oleh LoginRequest
+        $credentials = $request->only('username', 'password');
 
         // Cek user berdasarkan username
         $user = User::where('name', $credentials['username'])->first();
@@ -45,11 +43,13 @@ class AuthController extends Controller
 
         // Login gagal, kembali ke login dengan error
         return back()->withErrors([
-            'email' => 'Email atau password salah',
-        ])->onlyInput('email');
+            'username' => 'Username atau password salah',
+        ])->onlyInput('username');
     }
 
-    // Logout
+    /**
+     * Logout dan invalidate session
+     */
     public function logout(Request $request)
     {
         Auth::logout();

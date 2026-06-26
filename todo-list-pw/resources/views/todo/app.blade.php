@@ -94,7 +94,7 @@
                             
                             <div class="flex gap-1">
                                 {{-- 1. FORM LOKASI DELETE (TOMBOL HAPUS) --}}
-                                <form action="{{ route('todo.destroy', ['id' => $d->id]) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus task ini?')">
+                                <form action="{{ route('todo.destroy', ['todo' => $d->id]) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus task ini?')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded text-sm transition shadow-sm" title="Hapus">
@@ -112,7 +112,7 @@
                         
                         {{-- 2. FORM LOKASI UPDATE (PANEL EDIT COLLAPSE) --}}
                         <li id="collapse-{{ $d->id }}" class="hidden border border-gray-200 rounded-md p-4 bg-white shadow-inner mb-2">
-                            <form action="{{ route('todo.update', ['id' => $d->id]) }}" method="POST">
+                            <form action="{{ route('todo.update', ['todo' => $d->id]) }}" method="POST">
                                 @csrf
                                 @method('PUT')
                                 <div class="flex gap-2 mb-3">
